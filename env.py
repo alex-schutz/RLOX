@@ -75,11 +75,6 @@ class Board:
     def evaluate(self):
         # Evaluate the state of the board. Return -1 for X win, 1 for O win, 0 for draw (if self.complete == True)
 
-        print(
-            np.sum(self._grid, 0),
-            np.sum(self._grid, 1),
-            [np.trace(self._grid), np.trace(np.fliplr(self._grid))],
-        )
         # check rows/cols
         if GRID_SIZE in np.sum(self._grid, 0) or GRID_SIZE in np.sum(self._grid, 1):
             self.complete = True
