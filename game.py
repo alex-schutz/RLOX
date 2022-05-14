@@ -21,7 +21,7 @@ class Player:
         # decide what move to take
         if np.random.uniform() < self.epsilon:
             # random action
-            position = np.random.choice(positions)
+            position = positions[np.random.choice(len(positions))]
         else:
             # predict best move
             best_outcome = -999
@@ -33,8 +33,8 @@ class Player:
                 test_board.move(self.token, p)
                 outcome = (
                     0
-                    if self.states_value.get(test_board.state()) is None
-                    else self.states_value.get(test_board.state())
+                    if self.states_value.get(test_board.state_hash()) is None
+                    else self.states_value.get(test_board.state_hash())
                 )
                 if outcome >= best_outcome:
                     best_outcome = outcome
@@ -42,7 +42,7 @@ class Player:
 
         # make the move
         board.move(self.token, position)
-        self.states.append(board.state())
+        self.states.append(board.state_hash())
 
     def give_reward(self, reward):
         # update the values assigned to each board state
@@ -100,11 +100,15 @@ class NoughtsAndCrosses:
             # player two's move
             self.p2.move(self.board)
 
-        self.reward(self.p1, self.p2)
+        self.reward()
 
     def play(self, rounds=1000):
-        for _ in range(rounds):
+        for i in range(rounds):
             self.play_match()
+            if (i % 100) == 0:
+                print(f"round {i+1}/{rounds}")
+                self.board.draw()
+                print()
             self.board.reset()
             self.p1.reset()
             self.p2.reset()

@@ -50,6 +50,18 @@ class Board:
     def state(self):
         return self._grid.copy()
 
+    def state_hash(self):
+        st = self.state().flatten()
+        h = ""
+        for i in st:
+            if i == 1:
+                h += "O"
+            elif i == -1:
+                h += "X"
+            else:
+                h += "_"
+        return h
+
     def draw(self):
         token_line = list("   |   |   ")
         in_between = "---+---+---"
