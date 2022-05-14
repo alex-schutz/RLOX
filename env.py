@@ -10,11 +10,11 @@ class Board:
     X represented by -1
     No token represented by 0
 
-    0 | 1 | 2
+      |   |
     ---------
-    3 | 4 | 5
+      |   |
     ---------
-    6 | 7 | 8
+      |   |
 
     """
 
@@ -37,9 +37,13 @@ class Board:
             return -1
         if token == self.O or token == "O" or token == "o":
             self._grid[position] = self.O
+            if self.open_positions() == []:
+                self.complete = True
             return 0
         if token == self.X or token == "X" or token == "x":
             self._grid[position] = self.X
+            if self.open_positions() == []:
+                self.complete = True
             return 0
         return -1
 
