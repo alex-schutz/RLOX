@@ -1,1 +1,1 @@
-# RLOX
+# Reinforcement Learning Noughts and Crosses
