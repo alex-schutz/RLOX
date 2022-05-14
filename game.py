@@ -2,6 +2,33 @@ import env
 import numpy as np
 import pickle
 
+
+class HumanPlayer:
+    def __init__(self, token):
+        self.token = token
+
+    def reset(self):
+        pass
+
+    def give_reward(self, r):
+        pass
+
+    def move(self, board):
+        print("Choose a position")
+        board.draw()
+        print()
+        r = -1
+        while r != 0:
+            row = int(input("Row:")) - 1
+            col = int(input("Col:")) - 1
+            r = board.move(self.token, (row, col))
+            if r != 0:
+                print("Invalid, try again")
+        print()
+        board.draw()
+        print()
+
+
 # TODO: make state work regardless of player 1 or 2
 class Player:
     def __init__(self, token, epsilon=0.3):
@@ -75,6 +102,12 @@ class NoughtsAndCrosses:
         self.p1 = p1("o")
         self.p2 = p2("x")
 
+    def change_players(self, p1=None, p2=None):
+        if p1 is not None:
+            self.p1 = p1("o")
+        if p2 is not None:
+            self.p2 = p2("x")
+
     def reward(self):
         winner = self.board.evaluate()
 
@@ -88,13 +121,13 @@ class NoughtsAndCrosses:
 
         # try varying these weights so that ties are less desirable
         if winner == 0:
-            self.p1.give_reward(0.5)
+            self.p1.give_reward(0.2)
             self.p2.give_reward(0.5)
 
     def play_match(self):
         while not self.board.complete:
             # player one's move
-            self.p1.move(self.board)
+            r = self.p1.move(self.board)
             if self.board.complete:
                 break
             # player two's move
