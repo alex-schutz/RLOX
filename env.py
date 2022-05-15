@@ -49,8 +49,10 @@ class Board:
         return self._grid.copy()
 
     def draw(self):
-        token_line = list("   |   |   ")
-        in_between = "---+---+---"
+        token_line = ["   |"] * (GRID_SIZE - 1) + ["   "]
+        token_line = list("".join(token_line))
+        in_between = ["---+"] * (GRID_SIZE - 1) + ["---"]
+        in_between = "".join(in_between)
         for row in range(GRID_SIZE):
             line = token_line.copy()
             for col in range(GRID_SIZE):
@@ -59,7 +61,7 @@ class Board:
                 if self._grid[row][col] == self.X:
                     line[1 + col * 4] = "X"
             print("".join(line))
-            if row < 2:
+            if row < GRID_SIZE - 1:
                 print(in_between)
 
     def is_open(self, pos):
