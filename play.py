@@ -13,5 +13,7 @@ if __name__ == "__main__":
     w = g.board.evaluate()
     if w == 1:
         print("You win!")
-    else:
+    elif w == -1:
         print("You lose!")
+    else:
+        print("Tie!")

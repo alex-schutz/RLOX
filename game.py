@@ -43,7 +43,41 @@ class Player:
 
     def reset(self):
         self.states = []
-        self.epsilon = self.decay_episilon * self.epsilon
+        self.epsilon = self.decay_epsilon * self.epsilon
+
+    def state_hash(self, state):
+        # store board state as string, with own state stored as O
+        me = 1 if (self.token == "o" or self.token == "O") else -1
+
+        st = state.flatten()
+        h = ""
+        for i in st:
+            if i == me:
+                h += "O"
+            elif i == -me:
+                h += "X"
+            else:
+                h += "_"
+        return h
+
+    def board_hash(self, board):
+        # find the hash of the board state, unique to rotation/reflection
+        st = board.state()
+        hashes = []
+
+        # rotate
+        for _ in range(4):
+            hashes.append(self.state_hash(st))
+            st = np.rot90(st)
+        # reflect and rotate
+        st = np.fliplr(st)
+        for _ in range(4):
+            hashes.append(self.state_hash(st))
+            st = np.rot90(st)
+
+        # alphabetically first hash identifies unique hash
+        hashes.sort()
+        return hashes[0]
 
     def move(self, board):
         positions = board.open_positions()
@@ -60,10 +94,9 @@ class Player:
                 test_board._grid = board.state()
                 # try the move
                 test_board.move(self.token, p)
+                h = self.board_hash(test_board)
                 outcome = (
-                    0
-                    if self.states_value.get(test_board.state_hash()) is None
-                    else self.states_value.get(test_board.state_hash())
+                    0 if self.states_value.get(h) is None else self.states_value.get(h)
                 )
                 if outcome >= best_outcome:
                     best_outcome = outcome
@@ -71,7 +104,7 @@ class Player:
 
         # make the move
         board.move(self.token, position)
-        self.states.append(board.state_hash())
+        self.states.append(self.board_hash(board))
 
     def give_reward(self, reward):
         # update the values assigned to each board state
