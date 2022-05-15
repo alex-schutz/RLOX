@@ -36,7 +36,7 @@ class Player:
         self.epsilon = epsilon  # epsilon-greedy
         self.decay_epsilon = 0.999  # epsilon decay rate
         self.lr = 0.2  # learning rate
-        self.gamma = 0.95  # decay
+        self.gamma = 0.9  # decay
 
         self.states = []  # set of states taken in this game
         self.states_value = {}  # dict of values given to particular states
@@ -157,7 +157,7 @@ class NoughtsAndCrosses:
         # try varying these weights so that ties are less desirable
         if winner == 0:
             self.p1.give_reward(0.2)
-            self.p2.give_reward(0.5)
+            self.p2.give_reward(0.2)
 
     def play_match(self):
         while not self.board.complete:
