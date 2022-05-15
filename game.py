@@ -34,6 +34,7 @@ class Player:
     def __init__(self, token, epsilon=0.3):
         self.token = token
         self.epsilon = epsilon  # epsilon-greedy
+        self.decay_epsilon = 0.999  # epsilon decay rate
         self.lr = 0.2  # learning rate
         self.gamma = 0.95  # decay
 
@@ -42,6 +43,7 @@ class Player:
 
     def reset(self):
         self.states = []
+        self.epsilon = self.decay_episilon * self.epsilon
 
     def move(self, board):
         positions = board.open_positions()
