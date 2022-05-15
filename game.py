@@ -29,7 +29,6 @@ class HumanPlayer:
         print()
 
 
-# TODO: make state work regardless of player 1 or 2
 class Player:
     def __init__(self, token, epsilon=0.3):
         self.token = token
@@ -47,7 +46,7 @@ class Player:
 
     def state_hash(self, state):
         # store board state as string, with own state stored as O
-        me = 1 if (self.token == "o" or self.token == "O") else -1
+        me = 1 if self.token.lower() == "o" else -1
 
         st = state.flatten()
         h = ""
@@ -118,8 +117,8 @@ class Player:
             )
             reward = self.states_value[st]
 
-    def save_policy(self):
-        f = open("policy_" + str(self.token), "wb")
+    def save_policy(self, name):
+        f = open(name, "wb")
         pickle.dump(self.states_value, f)
         f.close()
 
@@ -180,3 +179,15 @@ class NoughtsAndCrosses:
             self.board.reset()
             self.p1.reset()
             self.p2.reset()
+
+    def save_policy(self, name):
+        if isinstance(self.p1, Player):
+            self.p1.save_policy(name)
+        elif isinstance(self.p2, Player):
+            self.p2.save_policy(name)
+
+    def load_policy(self, name):
+        if isinstance(self.p1, Player):
+            self.p1.load_policy(name)
+        if isinstance(self.p2, Player):
+            self.p2.load_policy(name)

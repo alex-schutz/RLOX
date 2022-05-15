@@ -35,11 +35,11 @@ class Board:
             return -1
         if not self.is_open(position):
             return -1
-        if token == self.O or token == "O" or token == "o":
+        if token == self.O or token.lower() == "o":
             self._grid[position] = self.O
             self.evaluate()
             return 0
-        if token == self.X or token == "X" or token == "x":
+        if token == self.X or token.lower() == "x":
             self._grid[position] = self.X
             self.evaluate()
             return 0
