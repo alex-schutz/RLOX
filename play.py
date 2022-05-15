@@ -12,7 +12,7 @@ if __name__ == "__main__":
     g = game.NoughtsAndCrosses()
     g.add_players(game.Player, game.Player)
 
-    pol = f"policy_{d}1"
+    pol = f"policy_{d}"
     if not os.path.exists(pol):
         # train the players
         g.play(rounds=(diffs.index(d) + 1) * 400)

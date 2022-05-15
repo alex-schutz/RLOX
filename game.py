@@ -182,12 +182,12 @@ class NoughtsAndCrosses:
 
     def save_policy(self, name):
         if isinstance(self.p1, Player):
-            self.p1.save_policy(name)
-        elif isinstance(self.p2, Player):
-            self.p2.save_policy(name)
+            self.p1.save_policy(name + "1")
+        if isinstance(self.p2, Player):
+            self.p2.save_policy(name + "2")
 
     def load_policy(self, name):
         if isinstance(self.p1, Player):
-            self.p1.load_policy(name)
+            self.p1.load_policy(name + "1")
         if isinstance(self.p2, Player):
-            self.p2.load_policy(name)
+            self.p2.load_policy(name + "2")
